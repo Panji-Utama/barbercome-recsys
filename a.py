@@ -1,14 +1,18 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 import re
 from sklearn.metrics.pairwise import cosine_similarity
+from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFactory
 
-indonesian_stop_words = ['dan', 'yang', 'di', 'dari', 'untuk', 'pada', 'ke', 'karena', ...]
+stop_factory = StopWordRemoverFactory()
+more_stopword = ['dengan', 'ia','bahwa','oleh']
+fix_stopword = stop_factory.get_stop_words() + more_stopword
+# indonesian_stop_words = ['dan', 'yang', 'di', 'dari', 'untuk', 'pada', 'ke', 'karena', ...]
 
 def preprocess_indonesian(text):
     text = text.lower()
     text = re.sub(r'\W+', ' ', text)
     words = text.split()
-    words = [word for word in words if word not in indonesian_stop_words]
+    words = [word for word in words if word not in fix_stopword]
     return ' '.join(words)
 
 user_preferences = [
